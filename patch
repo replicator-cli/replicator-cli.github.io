@@ -1,0 +1,192 @@
+Adding file /.envrc
+Adding file /.editorconfig
+Adding file /README.md
+Adding file /.gitignore
+Adding file /package.json
+Adding file /.env
+Adding file /packages/.gitkeep
+Adding file /.vscode/settings.json
+Adding file /biome.json
+Adding file /apps/workers/.gitkeep
+Adding file /apps/pages/.gitkeep
+--- a/".tmpakJcs9"
++++ b/".tmp7MgAqr"
+@@ -1,26 +1,24 @@
+ {
+-  "devDependencies": {
+-    "@biomejs/biome": "1.7.3",
+-    "@types/bun": "1.1.2",
+-    "npm-run-all2": "6.2.0"
+-  },
+   "name": "replicator-cli.github.io",
+-  "overrides": {
+-    "@types/node": "20.8.3"
+-  },
+   "private": true,
+   "scripts": {
+     "biome": "biome check --apply .",
+-    "build:pages": "cd apps/pages/github && bun run build",
+     "clean": "bun run clean:packages && bun run clean:cache",
+-    "clean:cache": "bun pm cache rm",
+     "clean:packages": "rm -rf bun.lockb node_modules apps/pages/*/node_modules apps/workers/*/node_modules packages/*/node_modules",
+-    "dev:pages": "cd apps/pages/github && bun run dev",
++    "clean:cache": "bun pm cache rm",
+     "update:interactive": "bun x npm-check-updates -ui -s && bun x npm-check-updates -ui -ws"
+   },
+   "workspaces": [
+     "apps/pages/*",
+     "apps/workers/*",
+     "packages/*"
+-  ]
++  ],
++  "overrides": {
++    "@types/node": "20.8.3"
++  },
++  "devDependencies": {
++    "@biomejs/biome": "1.7.3",
++    "@types/bun": "1.1.2",
++    "npm-run-all2": "6.2.0"
++  }
+ }
+
+Adding file /.github/workflows/github.yml
+Adding file apps/pages/github/tailwind.config.js
+Adding file apps/pages/github/app/islands/counter.tsx
+Adding file apps/pages/github/app/islands/command.tsx
+Adding file apps/pages/github/app/types.ts
+Adding file apps/pages/github/app/layouts/basic.tsx
+Adding file apps/pages/github/app/client.ts
+Adding file apps/pages/github/app/style.css
+Adding file apps/pages/github/app/global.d.ts
+Adding file apps/pages/github/app/server.ts
+Adding file apps/pages/github/app/routes/index.tsx
+Adding file apps/pages/github/app/routes/_renderer.tsx
+Adding file apps/pages/github/app/routes/docs/index.mdx
+Adding file apps/pages/github/app/routes/docs/_renderer.tsx
+Adding file apps/pages/github/app/routes/_index.mdx
+Adding file apps/pages/github/app/routes/counter/index.tsx
+Adding file apps/pages/github/README.md
+Adding file apps/pages/github/public/favicon.ico
+Adding file apps/pages/github/.gitignore
+Adding file apps/pages/github/package.json
+Adding file apps/pages/github/tsconfig.json
+Adding file apps/pages/github/vite.config.ts
+Adding file apps/pages/github/postcss.config.js
+Adding file apps/pages/github/app/routes/articles/_renderer.tsx
+Adding file apps/pages/github/app/routes/articles/journey.mdx
+Adding file apps/pages/github/app/routes/articles/roadmap.mdx
+--- a/".tmphX1JgI"
++++ b/".tmp7MgAqr/apps/pages/github"
+@@ -1,40 +1,9 @@
+ ---
+-title: Docs
++title: Hello World
+ ---
+ 
+-Guides are coming soon. In the meantime, take a look at the [README on github](https://www.github.com/replicator-cli/replicator-cli) and use the `--help` flag to explore commands.
++## Hello World
+ 
+-You can also try our command-line guided example (run this from the root of the cloned repo):
++This is a test.
+ 
+-```sh
+-PARENT_FOLDER=tmp WORKSPACE_FOLDER=replicator-example ./templates/examples/create-workspace.sh
+-```
+-
+-Here are some other interesting usage notes.
+-
+-Visualize your replicator.replay.json as `replicator install` commands:
+-
+-```sh
+-% replicator output replay --inputs --command
+-
+-Workspace replay log
+-
+-WORKSPACE_NAME="replicator-cli.github.io" \
+-  NPM_INSTALL="bun i" \
+-  NPM_SAVE="bun add --exact" \
+-  NPM_SAVE_DEV="bun add --exact --dev" \
+-  PACKAGES_PATH="packages" \
+-  PACKAGES_SCOPE="packages" \
+-  WORKERS_SCOPE="workers" \
+-  WORKSPACE_SAVE="bun add --exact" \
+-  WORKSPACE_SAVE_DEV="bun add --exact --dev" \
+-  replicator install replicator-cli.github.io/templates/workspace/root
+-
+-NPM_SAVE="bun add --exact" \
+-  NPM_SAVE_DEV="bun add --exact --dev" \
+-  APP_NAME="replicator-cli.github.io" \
+-  APP_PATH="apps/pages/github" \
+-  WORKFLOW_NAME="github" \
+-  replicator install replicator-cli.github.io/templates/apps/pages/github/content apps/pages/github
+-```
+-
++Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh. Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam sodales hendrerit.
+
+--- a/".tmphX1JgI"
++++ b/".tmp7MgAqr/apps/pages/github"
+@@ -16,12 +16,8 @@
+   )
+   return (
+     <BasicLayout title={title} description={description} additionalHead={head}>
+-      <div
+-        style="max-width: min(100vw, 65ch);"
+-        class="px-4 pt-20 mx-auto break-words prose md:prose-md lg:prose-lg xl:prose-xl 2xl:prose-2xl dark:prose-invert prose-img:rounded-xl"
+-      >
+-        {children}
+-      </div>
++      <div class="px-4 pt-20 max-w-prose mx-auto prose md:prose-md lg:prose-lg xl:prose-xl 2xl:prose-2xl dark:prose-invert prose-img:rounded-xl">{children}</div>
+     </BasicLayout>
+   )
+ })
++
+
+--- a/".tmphX1JgI"
++++ b/".tmp7MgAqr/apps/pages/github"
+@@ -1,27 +1,1 @@
+-Scaffold and update logical layers of code in a workspace.
+-
+-## Features
+-
+-- ___Install___ - Copy files from source folders to a workspace
+-- ___Compose___ - Sources can require other sources to be installed first
+-- ___Merge___ - Handle conflicts and replace variables
+-- ___Execute___ - Run additional scripts after files are copied
+-- ___Log___ - Track the installations so they can be replayed
+-- ___Replay___ - Recreate the workspace from the log file
+-- ___Diff___ - Compare current workspace to replayed version
+-
+-## Goals
+-
+-This tool speeds up the set up and maintenance of projects by enabling you to reorganize your files into ___logical layers of code___ that are applied on top of each other to create your final workspace. This allows you to more easily centralize aspects of your projects that can not be encapsulated in package systems and must exist in your workspace.
+-
+-`replicator-cli` supports typical scaffolding workflows. It can copy files and folders from a source directory, prompt for inputs and replace text in your files based on the inputs. It can run shell commands after files are copied to your workspace.
+-
+-It has a few additional features that are not as common in other scaffolding tools.
+-
+-It expects multiple source folders to be copied onto the same workspace folders. When an existing file is found, it can deeply merge data (JSON is currently supported) or append/replace content using slots within the file.
+-
+-A source folder can require other source folders to be copied first. A source folder with an alternate implementation can indicate that it "satisfies" the requirement of the source it is replacing. Requirements are scoped to the workspace or an app folder within your workspace.
+-
+-It maintains a log of the templates that were installed into your workspace. If a template is updated, you can scaffold a new workspace by replaying the log and compare the difference to your current workspace.
+-
+-The process of creating a template is designed to be as frictionless as possible and it can be used on any project. It makes no assumptions about platforms or programming languages.
++Homepage
+
+Binary file differs apps/pages/github/public/favicon.ico
+Adding file apps/pages/github/public/favicon@32.png
+Adding file apps/pages/github/public/schemas/latest/replicator.replay-schema.json
+Adding file apps/pages/github/public/schemas/latest/replicator.template-schema.json
+Adding file apps/pages/github/public/schemas/latest/replicator.workspace-schema.json
+Adding file apps/pages/github/public/schemas/latest/replicator.global-schema.json
+Adding file apps/pages/github/public/schemas/0.1.0/replicator.replay-schema.json
+Adding file apps/pages/github/public/schemas/0.1.0/replicator.template-schema.json
+Adding file apps/pages/github/public/schemas/0.1.0/replicator.workspace-schema.json
+Adding file apps/pages/github/public/schemas/0.1.0/replicator.global-schema.json
+Adding file apps/pages/github/public/logo.png
+Adding file apps/pages/github/public/static/js/nav.js
+Adding file apps/pages/github/public/logo@512.png
+Adding file apps/pages/github/public/logo@128.png
+Adding file apps/pages/github/public/logo.svg
+Adding file apps/pages/github/public/icon@192.png
+Adding file apps/pages/github/update-schema.sh

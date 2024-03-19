@@ -1,0 +1,146 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ReplayConfig",
+  "type": "object",
+  "required": [
+    "log"
+  ],
+  "properties": {
+    "$schema": {
+      "default": "https://replicator-cli.github.io/schemas/latest/replicator.replay-schema.json",
+      "type": "string"
+    },
+    "log": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/InstallLog"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "InstallLog": {
+      "type": "object",
+      "required": [
+        "path",
+        "requiredBy",
+        "template",
+        "time",
+        "version"
+      ],
+      "properties": {
+        "implements": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "inputs": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "label": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "outputs": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "path": {
+          "type": "string"
+        },
+        "postInstall": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "requiredBy": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "requirements": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/TemplateRequirement"
+          }
+        },
+        "template": {
+          "type": "string"
+        },
+        "time": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "TemplateRequirement": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/TemplateRequirementWithoutLabel"
+        },
+        {
+          "$ref": "#/definitions/TemplateRequirementWithLabel"
+        }
+      ]
+    },
+    "TemplateRequirementWithLabel": {
+      "description": "This tuple has the template name, install path and the optional install label",
+      "type": "array",
+      "items": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "maxItems": 3,
+      "minItems": 3
+    },
+    "TemplateRequirementWithoutLabel": {
+      "description": "This tuple has the template name and install path",
+      "type": "array",
+      "items": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "maxItems": 2,
+      "minItems": 2
+    }
+  }
+}

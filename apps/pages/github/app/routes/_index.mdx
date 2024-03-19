@@ -1,0 +1,27 @@
+Scaffold and update logical layers of code in a workspace.
+
+## Features
+
+- ___Install___ - Copy files from source folders to a workspace
+- ___Compose___ - Sources can require other sources to be installed first
+- ___Merge___ - Handle conflicts and replace variables
+- ___Execute___ - Run additional scripts after files are copied
+- ___Log___ - Track the installations so they can be replayed
+- ___Replay___ - Recreate the workspace from the log file
+- ___Diff___ - Compare current workspace to replayed version
+
+## Goals
+
+This tool speeds up the set up and maintenance of projects by enabling you to reorganize your files into ___logical layers of code___ that are applied on top of each other to create your final workspace. This allows you to more easily centralize aspects of your projects that can not be encapsulated in package systems and must exist in your workspace.
+
+`replicator-cli` supports typical scaffolding workflows. It can copy files and folders from a source directory, prompt for inputs and replace text in your files based on the inputs. It can run shell commands after files are copied to your workspace.
+
+It has a few additional features that are not as common in other scaffolding tools.
+
+It expects multiple source folders to be copied onto the same workspace folders. When an existing file is found, it can deeply merge data (JSON is currently supported) or append/replace content using slots within the file.
+
+A source folder can require other source folders to be copied first. A source folder with an alternate implementation can indicate that it "satisfies" the requirement of the source it is replacing. Requirements are scoped to the workspace or an app folder within your workspace.
+
+It maintains a log of the templates that were installed into your workspace. If a template is updated, you can scaffold a new workspace by replaying the log and compare the difference to your current workspace.
+
+The process of creating a template is designed to be as frictionless as possible and it can be used on any project. It makes no assumptions about platforms or programming languages.

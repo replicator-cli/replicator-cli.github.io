@@ -1,0 +1,8 @@
+{
+  "path": "apps/pages/github",
+  "version": "2024.05.20",
+  "templates": [
+    "replicator-cli.github.io/templates/apps/pages/github/honox",
+    "replicator-cli.github.io/templates/apps/pages/github/content"
+  ]
+}

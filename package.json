@@ -1,0 +1,26 @@
+{
+  "devDependencies": {
+    "@biomejs/biome": "1.7.3",
+    "@types/bun": "1.1.2",
+    "npm-run-all2": "6.2.0"
+  },
+  "name": "replicator-cli.github.io",
+  "overrides": {
+    "@types/node": "20.8.3"
+  },
+  "private": true,
+  "scripts": {
+    "biome": "biome check --apply .",
+    "build:pages": "cd apps/pages/github && bun run build",
+    "clean": "bun run clean:packages && bun run clean:cache",
+    "clean:cache": "bun pm cache rm",
+    "clean:packages": "rm -rf bun.lockb node_modules apps/pages/*/node_modules apps/workers/*/node_modules packages/*/node_modules",
+    "dev:pages": "cd apps/pages/github && bun run dev",
+    "update:interactive": "bun x npm-check-updates -ui -s && bun x npm-check-updates -ui -ws"
+  },
+  "workspaces": [
+    "apps/pages/*",
+    "apps/workers/*",
+    "packages/*"
+  ]
+}

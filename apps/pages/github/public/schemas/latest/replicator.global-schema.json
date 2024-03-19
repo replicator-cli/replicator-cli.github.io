@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GlobalConfig",
+  "type": "object",
+  "required": [
+    "$schema"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "appConfigFilename": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "ignore": {
+      "description": "Optional list of globs to ignore when installing and for snapshots",
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "patchFilename": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "replayConfigFilename": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "templateConfigFilename": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "templateFolders": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "variablePattern": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "variables": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "workspaceConfigFilename": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

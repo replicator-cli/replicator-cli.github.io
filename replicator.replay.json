@@ -1,0 +1,108 @@
+{
+  "$schema": "https://replicator-cli.github.io/schemas/latest/replicator.replay-schema.json",
+  "log": [
+    {
+      "template": "replicator-cli.github.io/templates/workspace/root",
+      "path": "",
+      "time": "2024-05-20T23:45:06.490483+00:00",
+      "requiredBy": [
+        "user"
+      ],
+      "version": "2024.05.20",
+      "inputs": {
+        "WORKSPACE_NAME": "replicator-cli.github.io",
+        "NPM_INSTALL": "bun i",
+        "NPM_SAVE": "bun add --exact",
+        "NPM_SAVE_DEV": "bun add --exact --dev",
+        "PACKAGES_PATH": "packages",
+        "PACKAGES_SCOPE": "packages",
+        "WORKERS_SCOPE": "workers",
+        "WORKSPACE_SAVE": "bun add --exact",
+        "WORKSPACE_SAVE_DEV": "bun add --exact --dev"
+      },
+      "outputs": {
+        "workspace:NPM_SAVE": "bun add --exact",
+        "workspace:NPM_SAVE_DEV": "bun add --exact --dev",
+        "workspace:PACKAGES_PATH": "packages",
+        "workspace:PACKAGES_SCOPE": "packages",
+        "workspace:WORKERS_PATH": "apps/workers",
+        "workspace:WORKERS_SCOPE": "workers",
+        "workspace:WORKSPACE_NAME": "replicator-cli.github.io",
+        "workspace:WORKSPACE_SAVE": "bun add --exact",
+        "workspace:WORKSPACE_SAVE_DEV": "bun add --exact --dev"
+      },
+      "postInstall": [
+        "bun i",
+        "bun add --exact --dev @types/bun @biomejs/biome npm-run-all2"
+      ]
+    },
+    {
+      "template": "replicator-cli.github.io/templates/apps/pages/github/workspace",
+      "path": "",
+      "label": "github",
+      "time": "2024-05-20T23:45:06.530431+00:00",
+      "requiredBy": [
+        "apps/pages/github"
+      ],
+      "version": "2024.05.20",
+      "inputs": {
+        "APP_PATH": "apps/pages/github",
+        "WORKFLOW_NAME": "github"
+      }
+    },
+    {
+      "template": "replicator-cli.github.io/templates/apps/pages/github/honox",
+      "path": "apps/pages/github",
+      "time": "2024-05-20T23:45:06.532965+00:00",
+      "requiredBy": [
+        "apps/pages/github"
+      ],
+      "version": "2024.05.20",
+      "inputs": {
+        "NPM_SAVE": "bun add --exact",
+        "NPM_SAVE_DEV": "bun add --exact --dev",
+        "APP_NAME": "replicator-cli.github.io",
+        "APP_PATH": "apps/pages/github",
+        "WORKFLOW_NAME": "github"
+      },
+      "postInstall": [
+        "bun add --exact hono honox",
+        "bun add --exact --dev typescript vite @hono/vite-ssg",
+        "bun add --exact --dev @mdx-js/rollup @types/mdx remark-frontmatter remark-mdx-frontmatter",
+        "bun add --exact --dev autoprefixer postcss tailwindcss @tailwindcss/typography"
+      ],
+      "requirements": [
+        [
+          "replicator-cli.github.io/templates/apps/pages/github/workspace",
+          "workspace:",
+          "github"
+        ]
+      ]
+    },
+    {
+      "template": "replicator-cli.github.io/templates/apps/pages/github/content",
+      "path": "apps/pages/github",
+      "time": "2024-05-20T23:45:08.288556+00:00",
+      "requiredBy": [
+        "user"
+      ],
+      "version": "2024.05.20",
+      "inputs": {
+        "NPM_SAVE": "bun add --exact",
+        "NPM_SAVE_DEV": "bun add --exact --dev",
+        "APP_NAME": "replicator-cli.github.io",
+        "APP_PATH": "apps/pages/github",
+        "WORKFLOW_NAME": "github"
+      },
+      "postInstall": [
+        "./update-schema.sh"
+      ],
+      "requirements": [
+        [
+          "replicator-cli.github.io/templates/apps/pages/github/honox",
+          "app:"
+        ]
+      ]
+    }
+  ]
+}

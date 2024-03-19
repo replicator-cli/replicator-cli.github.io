@@ -1,0 +1,175 @@
+# Roadmap
+
+Here are some planned roadmap items and some ideas that are planned to be considered. Submit an RFC as a github issue to discuss other ideas.
+
+### Secrets manager
+
+- [ ] some type of secrets manager for inputs/outputs/variables
+  - somehow pipe to another process? or cloudflare api? and/or github? or pulumi?
+  - "variables" value could be a syntax for fetching the secret into runtime config
+  - could just invoke a command and capture the output... seems flexible right?
+  - look into pulumi's tool. maybe best to align with them.
+
+### Smaller feature requests
+
+- [ ] Remove vars from the `output replay -i` command that match the current template defaults
+- [ ] Ability to disable writing the "patch" file entirely (and docs/example for that - global config example)
+- [ ] Some type of additional "prompts" config that can provide more context about inputs:
+
+```
+prompts: {
+    "SOMETHING": {
+        "description": "",
+        ... more ?
+    }
+}
+```
+
+### Technical tasks
+
+- [ ] Rust CI build actions (publish crate, build binaries, etc)
+  - [ ] npm
+    - [https://www.woubuc.be/blog/post/publishing-rust-binary-on-npm/](https://www.woubuc.be/blog/post/publishing-rust-binary-on-npm/)
+    - github action [https://blog.orhun.dev/packaging-rust-for-npm/](https://blog.orhun.dev/packaging-rust-for-npm/)
+  - [ ] homebrew
+  - [ ] add to nixpkgs. ex. [https://github.com/NixOS/nixpkgs/blob/master/pkgs/by-name/as/ast-grep/package.nix](https://github.com/NixOS/nixpkgs/blob/master/pkgs/by-name/as/ast-grep/package.nix)
+  - [ ] where else? chocolatey?
+- [ ] Website generation
+- [ ] Code documentation
+- [ ] E2E tests of common use cases
+- [ ] Use anywho and thiserror for error handling instead of custom enum
+- [ ] Use camino to avoid utf8 path error handling
+- [ ] Review codebase and make other updates to swap custom code with crates or refactor to more idiomatic coding style
+  - [ ] [https://crates.io/crates/fast_rsync](https://crates.io/crates/fast_rsync)
+- [ ] There are a lot of bigger projects out there with similar scaffold/install functionality. Maybe there is a way to leverage some of them and reduce code in this project
+- [ ] Use json5 for more lenient json parsing? [https://docs.rs/json5/latest/json5/](https://docs.rs/json5/latest/json5/)
+- [ ] Security review, auditing for vulnerabilities we should put in a disclaimer. See the [security](https://github.com/replicator-cli/replicator-cli#security) section in README.
+
+### Website
+
+- [ ] screencast demo - a really short one and then a longer youtube where I walk through it?
+- [ ] make a cool "replicator" animation - materialize and dematerialize particles
+- [ ] point to crates.io for api docs
+- [ ] experiment with using WASI build of lib as a demo
+
+### Versioning
+
+- [ ] Add `changelog` to template schema
+  - changelog struct = compatibility-date, is-breaking, notes
+- [ ] compare version installed in workspace and the current template version. note if "update available"
+- [ ] output changelogs for each updated template
+
+### Developer Portals
+
+- [ ] contribute a backstage plugin
+  - [https://backstage.io/docs/reference/plugin-scaffolder-backend-module-yeoman/](https://backstage.io/docs/reference/plugin-scaffolder-backend-module-yeoman/)
+  - [https://backstage.io/docs/reference/plugin-scaffolder-backend-module-cookiecutter/](https://backstage.io/docs/reference/plugin-scaffolder-backend-module-cookiecutter/)
+
+### Template Management Features
+
+- `template list` additional args
+  - [ ] -i option to limit to installed templates
+  - [ ] -f [pattern] option to filter the list to templates matching the pattern
+  - [ ] -v option to verbosely list the details about each template
+  - [ ] -r option to recursively list the tree of requirements for each template
+- [ ] `template inputs [--sync]`
+  - search through template files (and file/folder names) and find the variable placeholders
+  - without the `--sync` arg, it should just compare to the template config and output findings
+  - with `--sync`, it should update the template config, adding new items or removing unused ones
+- `template create [name] [source-path]`
+  - [ ] default install to first listed template folder. option to specify with `--template-folder`
+  - [ ] If not already exist, prompt for other template config options and write template
+  - [ ] `source-path` arg is optional, if supplied will copy files from that folder to the template
+  - [ ] If template already exists and `source-path` is provided... prompt to add the new files to the template
+
+- [ ] "templatize" option in template config
+  - like postInstall, but run after files are snapshot
+  - template update script would take the snapshot folder and apply the templatize scripts to it
+  - and then overwrite the template files with them
+  - for example, replacing certain strings with template placeholders
+
+- [ ] plugin system for alternate templating or file merging
+  - what if it was shell-based? at least to start. that would slow things down compared to other communication methods, but would be the most flexible and easiest to implement.
+  - also see warpgate from moon [https://github.com/moonrepo/proto/tree/master/crates/warpgate](https://github.com/moonrepo/proto/tree/master/crates/warpgate)
+
+### Template Requirements Injection
+
+It should be possible to create a template that satisfies the same purpose as another template and can be used in its place. This can be useful for template authors that want to provide alternatives of the same template. It's also useful for template consumers that want to fork a template, make some changes and use it instead.
+
+- [x] Add a "satisfies" template config option to allow for a template to be used in replacement of another requirement.
+- [ ] Workspace template overrides. Mapping of template names. If it encounters one during installation, automatically use the other one instead.
+
+### GUI / App
+
+`REPLICATOR_GUI_PORT=87878 replicator gui --open`
+
+- launches a server that can invoke replicator-cli via wasi
+- needs to be run from a workspace
+- default page is a web app with the following functionality:
+  - download workspace config and replay file
+  - list the apps in your workspace
+  - list all the templates used by your workspace (included inherited) and where they are installed
+    - ability to sort by most used, date installed
+  - browse all available templates
+  - install template
+    - handle prompts
+  - template editor
+    - edit the tree and files
+    - vscode plugin that can work in browser?
+    - ability to manage template config - ignore, post install, etc
+  - workspace layered code editor
+    - ideally we would be able to know which templates were involved in creating the file
+    - if a file was generated from multiple templates, can select which template to edit or create a new to layer on top (which would have you select a template and then add a new file to that template)
+    - should show the surrounding code as read-only
+    - template slot marker comments should be collapsed into components
+
+- replicator-vscode - bring the UI into vscode and add seemless template editing ("go to template") / template source annotations for each line of code. there might be some interesting ux possible here.
+
+### Template Server / Remote Fetch / Registry
+
+It would be nice to have an idiomatic way to host templates and handle template versioning. For example, given a template name and a compatibility date (and optional authorization), it should serve an archive file with the template files for the version closest to that date. There should be checksum validation capabilities.
+
+Even if we create a template server, it could also be useful to be able to install from other remote locations:
+
+- [ ] remote url
+- [ ] git / github
+- [ ] nixpkgs?
+
+It could be nice to have a decentralized registry that could be searched. Add tags to the template config schema. Find alternate templates that satisfy the same requirements.
+
+### Template Author / Dependency Monitization
+
+- template config could contain support/sponsor links.
+- template authors could have the ability to split incoming donations between themselves and authors of their dependencies.
+- command to iterate templates in workspace output support links
+  - `npm fund` is similar and could be leveraged for js projects - it shows a tree of dependencies with funding links
+- way to bundle this - i.e. subscribe to $10/month and it's automatically divided up between the owners of the templates you use
+- subscribing could be a way to unlock template upgrades or access private templates
+
+Also look for other projects in this space to interoperate, leverage or advocate:
+
+- [drips.network](https://www.drips.network/) template creators can suggest splits for themselves and dependencies in the replicator.template.json? [https://www.drips.network/blog/posts/dependency-funding-with-drip](https://www.drips.network/blog/posts/dependency-funding-with-drip)
+- [radicle.xyz](https://radicle.xyz/)
+- softwarecommons.com
+
+### Items to consider
+
+- [-] preserve merged json ordering -- seem to be unintentionally sorting keys when merging json files
+  - i made a change to attempt to preserve the order, but merging is tricky
+
+- [ ] Get rid of `replicator output`?
+  - replicator completions [shell]
+  - replicator config output [config type] [path]
+  - replicator config schema [config type]
+
+- [ ] manipulate workspace and app configs from command line
+  - [ ] save variable (should be able to pipe from stdin)
+    - replicator config set [config type] [name] [value]
+  - [ ] append ignore pattern
+    - replicator config ignore [config type] [pattern]
+
+- [ ] ability to parse postInstall output and set runtime variable / output
+
+- [ ] templates.stackmyapp.com/apps/workers/api/deploy is a use case for installing a requirement to the workspace but using the INSTALL_PATH from the app that required it... maybe add a `_REQUIRED_BY_INSTALL_PATH` automatic var? or maybe `{{{app:_INSTALL_PATH}}}` \<-- so all of the vars from the app context could be made available with a app: prefix?
+
+- [ ] shell completion for template names once clap supports dynamic completions ([https://github.com/clap-rs/clap/issues/1232](https://github.com/clap-rs/clap/issues/1232))

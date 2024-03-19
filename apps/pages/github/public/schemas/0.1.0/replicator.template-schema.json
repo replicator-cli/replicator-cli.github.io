@@ -1,0 +1,168 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "TemplateConfig",
+  "type": "object",
+  "required": [
+    "name",
+    "version"
+  ],
+  "properties": {
+    "$schema": {
+      "default": "https://replicator-cli.github.io/schemas/latest/replicator.template-schema.json",
+      "type": "string"
+    },
+    "changelog": {
+      "description": "version -> change -- this should be able to be a path to a md, rtf or txt file",
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "copy": {
+      "description": "Optional list of globs to copy when installing",
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "description": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "ignore": {
+      "description": "Optional list of globs to ignore when installing",
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "implements": {
+      "description": "if you want this template to be able to be used in place of other templates",
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "inputs": {
+      "description": "defines template inputs and their default values",
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": {
+        "$ref": "#/definitions/InputConfigValue"
+      }
+    },
+    "name": {
+      "type": "string"
+    },
+    "outputs": {
+      "description": "defines template outputs and their default values if the key is prefixed with \"workspace:\" it will be added to the variables in the workspace config if the key is prefixed with \"app:\" it will be added to the variables in the app config otherwise, it will just be included in the install log for reference perhaps inputs could similarly use prefixes to automatically pull from previous install log outputs by default, global, workspace, and app variables are merged into the runtime template variables but it could be possible to use \"app:\" and \"workspace:\" prefixes on inputs to explicitly pull from those variables",
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "postInstall": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "requirements": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/definitions/TemplateRequirement"
+      }
+    },
+    "variablePattern": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "version": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "InputConfigValue": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "TemplateRequirement": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/TemplateRequirementWithoutLabel"
+        },
+        {
+          "$ref": "#/definitions/TemplateRequirementWithLabel"
+        }
+      ]
+    },
+    "TemplateRequirementWithLabel": {
+      "description": "This tuple has the template name, install path and the optional install label",
+      "type": "array",
+      "items": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "maxItems": 3,
+      "minItems": 3
+    },
+    "TemplateRequirementWithoutLabel": {
+      "description": "This tuple has the template name and install path",
+      "type": "array",
+      "items": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "maxItems": 2,
+      "minItems": 2
+    }
+  }
+}

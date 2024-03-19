@@ -1,0 +1,149 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WorkspaceConfig",
+  "type": "object",
+  "required": [
+    "apps",
+    "name",
+    "version"
+  ],
+  "properties": {
+    "$schema": {
+      "default": "https://replicator-cli.github.io/schemas/latest/replicator.workspace-schema.json",
+      "type": "string"
+    },
+    "appConfigFilename": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "apps": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/AppConfig"
+      }
+    },
+    "description": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "ignore": {
+      "description": "Optional list of globs to ignore when installing and for snapshots",
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "name": {
+      "type": "string"
+    },
+    "patchFilename": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "replayConfigFilename": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "templateConfigFilename": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "templateFolders": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "variables": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "version": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "AppConfig": {
+      "type": "object",
+      "required": [
+        "path",
+        "templates",
+        "version"
+      ],
+      "properties": {
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "path": {
+          "type": "string"
+        },
+        "templates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AppTemplateRequirement"
+          }
+        },
+        "variables": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "AppTemplateRequirement": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/AppTemplateRequirementWithoutLabel"
+        },
+        {
+          "$ref": "#/definitions/AppTemplateRequirementWithLabel"
+        }
+      ]
+    },
+    "AppTemplateRequirementWithLabel": {
+      "description": "This tuple has the template name, install path and the optional install label",
+      "type": "array",
+      "items": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "maxItems": 2,
+      "minItems": 2
+    },
+    "AppTemplateRequirementWithoutLabel": {
+      "description": "This tuple has the template name and install path",
+      "type": "string"
+    }
+  }
+}

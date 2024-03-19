@@ -1,0 +1,40 @@
+---
+title: Docs
+---
+
+Guides are coming soon. In the meantime, take a look at the [README on github](https://www.github.com/replicator-cli/replicator-cli) and use the `--help` flag to explore commands.
+
+You can also try our command-line guided example (run this from the root of the cloned repo):
+
+```sh
+PARENT_FOLDER=tmp WORKSPACE_FOLDER=replicator-example ./templates/examples/create-workspace.sh
+```
+
+Here are some other interesting usage notes.
+
+Visualize your replicator.replay.json as `replicator install` commands:
+
+```sh
+% replicator output replay --inputs --command
+
+Workspace replay log
+
+WORKSPACE_NAME="replicator-cli.github.io" \
+  NPM_INSTALL="bun i" \
+  NPM_SAVE="bun add --exact" \
+  NPM_SAVE_DEV="bun add --exact --dev" \
+  PACKAGES_PATH="packages" \
+  PACKAGES_SCOPE="packages" \
+  WORKERS_SCOPE="workers" \
+  WORKSPACE_SAVE="bun add --exact" \
+  WORKSPACE_SAVE_DEV="bun add --exact --dev" \
+  replicator install replicator-cli.github.io/templates/workspace/root
+
+NPM_SAVE="bun add --exact" \
+  NPM_SAVE_DEV="bun add --exact --dev" \
+  APP_NAME="replicator-cli.github.io" \
+  APP_PATH="apps/pages/github" \
+  WORKFLOW_NAME="github" \
+  replicator install replicator-cli.github.io/templates/apps/pages/github/content apps/pages/github
+```
+

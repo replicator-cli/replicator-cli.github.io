@@ -1,0 +1,11 @@
+node_modules
+.dev.vars
+.env
+.hono
+.wrangler
+.cache
+blob-report
+dist
+test-results
+playwright-report
+tmp

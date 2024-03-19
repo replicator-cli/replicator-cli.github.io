@@ -1,0 +1,50 @@
+{
+  "$schema": "https://replicator-cli.github.io/schemas/latest/replicator.workspace-schema.json",
+  "name": "replicator-cli.github.io",
+  "version": "2024.05.20",
+  "apps": {
+    "apps/pages/github": {
+      "path": "apps/pages/github",
+      "version": "2024.05.20",
+      "templates": [
+        "replicator-cli.github.io/templates/apps/pages/github/honox",
+        "replicator-cli.github.io/templates/apps/pages/github/content"
+      ]
+    },
+    "": {
+      "path": "",
+      "version": "2024.05.20",
+      "templates": [
+        "replicator-cli.github.io/templates/workspace/root",
+        [
+          "replicator-cli.github.io/templates/apps/pages/github/workspace",
+          "github"
+        ]
+      ]
+    }
+  },
+  "variables": {
+    "NPM_SAVE": "bun add --exact",
+    "NPM_SAVE_DEV": "bun add --exact --dev",
+    "PACKAGES_PATH": "packages",
+    "PACKAGES_SCOPE": "packages",
+    "WORKERS_PATH": "apps/workers",
+    "WORKERS_SCOPE": "workers",
+    "WORKSPACE_NAME": "replicator-cli.github.io",
+    "WORKSPACE_SAVE": "bun add --exact",
+    "WORKSPACE_SAVE_DEV": "bun add --exact --dev"
+  },
+  "ignore": [
+    ".git",
+    ".wrangler",
+    "node_modules",
+    "bun.lockb"
+  ],
+  "templateFolders": [
+    "/Users/robmarscher/Code/rmarscher/replicator-cli/templates"
+  ],
+  "appConfigFilename": "replicator.json",
+  "templateConfigFilename": "replicator.template.json",
+  "replayConfigFilename": "replicator.replay.json",
+  "patchFilename": "patch"
+}
