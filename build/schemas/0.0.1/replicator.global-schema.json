@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GlobalConfig",
+  "type": "object",
+  "required": [
+    "$schema"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "appConfigFilename": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "patchFilename": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "templateConfigFilename": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "templateFolders": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "variablePattern": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "variables": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "workspaceConfigFilename": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

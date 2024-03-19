@@ -1,0 +1,155 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AppConfig",
+  "type": "object",
+  "required": [
+    "installLog",
+    "path",
+    "version"
+  ],
+  "properties": {
+    "$schema": {
+      "default": "https://www.robmarscher.com/static/replicator.app-schema.json",
+      "type": "string"
+    },
+    "description": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "installLog": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/InstallLog"
+      }
+    },
+    "path": {
+      "type": "string"
+    },
+    "variables": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "version": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "InstallLog": {
+      "type": "object",
+      "required": [
+        "path",
+        "requiredBy",
+        "template",
+        "time",
+        "version"
+      ],
+      "properties": {
+        "inputs": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "label": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "outputs": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "path": {
+          "type": "string"
+        },
+        "postInstall": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "requiredBy": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "requirements": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/TemplateRequirement"
+          }
+        },
+        "template": {
+          "type": "string"
+        },
+        "time": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "TemplateRequirement": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/TemplateRequirementWithoutLabel"
+        },
+        {
+          "$ref": "#/definitions/TemplateRequirementWithLabel"
+        }
+      ]
+    },
+    "TemplateRequirementWithLabel": {
+      "type": "array",
+      "items": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "maxItems": 3,
+      "minItems": 3
+    },
+    "TemplateRequirementWithoutLabel": {
+      "type": "array",
+      "items": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "maxItems": 2,
+      "minItems": 2
+    }
+  }
+}
