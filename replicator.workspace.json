@@ -1,25 +1,25 @@
 {
   "$schema": "https://replicator-cli.github.io/schemas/latest/replicator.workspace-schema.json",
   "name": "replicator-cli.github.io",
-  "version": "2024.05.20",
+  "version": "2024.08.23",
   "apps": {
-    "apps/pages/github": {
-      "path": "apps/pages/github",
-      "version": "2024.05.20",
-      "templates": [
-        "replicator-cli.github.io/templates/apps/pages/github/honox",
-        "replicator-cli.github.io/templates/apps/pages/github/content"
-      ]
-    },
     "": {
       "path": "",
-      "version": "2024.05.20",
+      "version": "2024.08.23",
       "templates": [
         "replicator-cli.github.io/templates/workspace/root",
         [
           "replicator-cli.github.io/templates/apps/pages/github/workspace",
           "github"
         ]
+      ]
+    },
+    "apps/pages/github": {
+      "path": "apps/pages/github",
+      "version": "2024.08.23",
+      "templates": [
+        "replicator-cli.github.io/templates/apps/pages/github/honox",
+        "replicator-cli.github.io/templates/apps/pages/github/content"
       ]
     }
   },
@@ -41,7 +41,7 @@
     "bun.lockb"
   ],
   "templateFolders": [
-    "/Users/robmarscher/Code/rmarscher/replicator-cli/templates"
+    "../replicator-cli/templates"
   ],
   "appConfigFilename": "replicator.json",
   "templateConfigFilename": "replicator.template.json",

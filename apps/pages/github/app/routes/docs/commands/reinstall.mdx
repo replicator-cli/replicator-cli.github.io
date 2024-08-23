@@ -1,0 +1,38 @@
+---
+title: Docs > Reinstall
+published: 2024-08-23
+updated: 2024-08-23
+---
+
+The reinstall command will create a temp directory, replay all of your recorded template install commands into that temp directory and then create a snapshot with the diff between the temp directory and your project's working directory.
+
+It then pauses for you to adjust the snapshot and then apply it to the temp directory. Finally it completely replaces the current directory with the temp directory.
+
+You can ignore files and folders from the diff process. You can configure if they are copied to the new temp directory during the reinstall process or not.
+
+## Usage
+
+Run `replicator reinstall` to initiate a reinstall. Enter `y` at the prompt to accept the warning that we hope this process does not lead to data loss, but replicator-cli is a new and experimental project so we can't say for sure. Backup or commit and push all of your work before running the reinstall command!
+
+### Reading The Snapshot / Making Replicator-CLI Snapshots More Intuitive
+
+The snapshot that gets created is between the recreated workspace and your current workspace. So additions you have made on top of the templates will show after the `+` symbol and things that are in the recreated workspace but not in your current workspace will have a `-` symbol.
+
+For changes where the template updated lines from the original install also show with a `-` sign and this is very unintuitive. It would be better if we could have a different diff between the last scaffold and the current scaffold just to approve the changes that were made and see if we need to adjust anything accordingly. And then from there apply our actual workspace customization diff.
+
+In order to achieve this... we need to maintain a latest snapshot for each workspace before code changes are applied. When adding a new install operation, we should do it similar to a reinstall.
+
+So... create workspace, run install operations
+Create snapshot - which is a copy of all non-ignored files
+  - workspace config should hold the snapshot name
+Edit files
+Now you want to do a new install or reinstall
+1. create diff between snapshot and current workspace
+2. run the reinstall
+3. prepare a new snapshot
+3. apply the diff on the reinstall
+4. confirm that it looks good and you want to continue and replace the current workspace
+5. prompt to remove the old snapshot and diff
+
+I need to mention somewhere that the overlay filesystem that docker uses would be perfect for this type of thing... and maybe there's a way to implement all of this with docker... but docker still requires separate VMs on MacOS and Windows and isn't really integrated with the OS file systems. So we're basically recreating that with our potentially brittle snapshot/diff/patch processes.
+

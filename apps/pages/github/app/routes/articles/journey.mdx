@@ -10,7 +10,7 @@ updated: 2024-05-17
 
 It's frustrating how time consuming it is to _properly_ create a new app or website. This is partly due to the ever evolving nature of application development but also due to a lack of project starter tools and templates that are actually helpful. There are great platforms for creating websites - but often either get expensive or have limits on what you can do.
 
-Projects like `create-react-app` and meta frameworks like NextJS and Expo have done a good job of encapsulating configuration and best practices to simplify things, but there is still so much to build from there.
+Projects like `create-react-app` and meta frameworks like NextJS and Expo have done a good job of encapsulating configuration and best practices to simplify things for building apps. Docker, Terraform, Dagger and Pulumi go further with automating infrastructure and providing some higher-level constructs. There are emerging tools like Dagger for CI/CD pipelines and Grit for dependency management. But there is a lot to configure on top of those tools to release a production application. And there are files in your project that can not be neatly encapsulated into a package or container.
 
 Most project starter tools and templates will generate a large amount of initial code and then leave it up to you to edit, customize and add on top of it. It can be very time consuming to understand all of the parts of the starter code and follow along with updates as dependencies evolve. If the starter template includes functionality that you don't need for your project, this can be wasteful. I also almost never find templates that build off other starter templates to add additional functionality.
 
@@ -35,11 +35,11 @@ I have come across various scaffolding and build tools over the years and though
 
 [grunt-init](https://gruntjs.com/project-scaffolding) is one of the first tools I can remember using to scaffold web projects. And then [yeoman](https://yeoman.io/) came out a bit later. It's probably still possible to use them. They can satisfy all of the my feature requirements up to maintaining history. It might be possible to extend them to do that. However, they both use javascript code to configure the generator / scaffolding. I want to avoid needing to use code at all. Keep it as simple as possible. I think that will have the best chance of adoption and being useful in the long term.
 
-I have also use Nx before. It has a way to create generator plugins, local generators and update generators. This is pretty close to what I want to do. But I find Nx to a bit complicated and opinionated. Similar to yeoman, it also requires writing javascript code to define what the generator will do. [https://nx.dev/extending-nx/recipes/local-generators](https://nx.dev/extending-nx/recipes/local-generators)
+I have also use Nx before. It has a way to create generator plugins, local generators and update generators. This is pretty close to what I want to do. But I find Nx to be a bit complicated and opinionated. Similar to yeoman, it also requires writing javascript code to define what the generator will do. [https://nx.dev/extending-nx/recipes/local-generators](https://nx.dev/extending-nx/recipes/local-generators)
 
 I wanted to experiment to see if there might be a simpler way - at least for my use case. I started building my own tool. At first, it was a collection of bash scripts that mostly leaned on jq, sed and diff. But I wanted something easier to distribute and the difference in sed versions between different platforms like osx and linux is tough. I ended up rewriting in Rust - mostly because a lot of recent tools have been built in rust and it can build binaries to be distributed so the end user doesn't need to have Rust installed.
 
-I was ever paranoid that I was building a tool that already existed so I continued to search for similar tools. I eventually found scaffolder-cli on npm. [https://github.com/galElmalah/scaffolder](https://github.com/galElmalah/scaffolder) It shares a lot of the same motivation I have and supports some features that I have not built yet. The only downside is that it uses a javascript configuration file which might not be ideal in some situations. It needs a javascript engine to run.
+I'm always paranoid that I'm building a tool that already exists so I continued to search for similar tools. I eventually found scaffolder-cli on npm. [https://github.com/galElmalah/scaffolder](https://github.com/galElmalah/scaffolder) It shares a lot of the same motivation I have and supports some features that I have not built yet. The only downside is that it uses a javascript configuration file which might not be ideal in some situations. It needs a javascript engine to run.
 
 I described my tool to ChatGTP and asked for similar projects. It suggested Lerna, Nx, Rush and Yarn Workspace. I actually hadn't heard of [Rush](https://rushjs.io/) before. It's pretty impressive and has a lot of interesting tools. I revised my prompt a bit and ChatGPT additionally suggested yeoman, hygen, plop.
 
@@ -51,7 +51,7 @@ Here are some other projects I have stumbled on. They all didn't quite match wha
 
 - monobuild - [github.com/monobuild/monobuild](https://github.com/monobuild/monobuild)
 - bazel - [bazel.build/](https://bazel.build/)
-- Renovate bot - [github.com/renovatebot/renovate](https://github.com/renovatebot/renovate)
+- renovate bot - [github.com/renovatebot/renovate](https://github.com/renovatebot/renovate)
 - brix - [crates.io/crates/brix](https://crates.io/crates/brix)
 - monofold - [github.com/kschio/monofold-templates](https://github.com/kschio/monofold-templates)
 - scaff - [gitlab.com/jD91mZM2/scaff/](https://gitlab.com/jD91mZM2/scaff/)
@@ -102,7 +102,7 @@ It was pretty difficult to come up with a name for this project that wasn't alre
 
 I thought "wolverine" was maybe a clever name since the X-Men character can regenerate. I also considered "molt" which crabs do in order to grow. There's a cRUSTacean theme in the rust community. I think those names are a bit too obtuse though.
 
-Ultimately, "replicator" - like from star trek - seemed like a pretty good fit. You can materaliaze a project, recycle it and create more.
+Ultimately, "replicator" - like from star trek - seemed like a pretty good fit. You can materalize a project, recycle it and create more.
 
 ## The End / The Beginning
 

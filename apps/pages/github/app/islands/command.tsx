@@ -1,5 +1,3 @@
 // TODO
-// it would be cool to render a radix ui command pallette
+// A radix ui command pallette to navigate and search the site would be nice
 // https://github.com/honojs/honox?tab=readme-ov-file#byor---bring-your-own-renderer
-//
-// At what point though is it better to just use nextjs / next-on-pages ?

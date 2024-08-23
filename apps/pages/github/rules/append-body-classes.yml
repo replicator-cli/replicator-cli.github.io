@@ -1,0 +1,15 @@
+id: append-to-body-class
+language: tsx
+severity: info
+rule:
+  pattern: $CLASS
+  # would like to match where the additional classes are not present, but not rust regex compatible
+  # regex: "^(?!.*bg-gradient-to-r from-teal-300 to-teal-400 dark:from-slate-700 dark:to-slate-800$).*"
+  kind: string_fragment
+  inside:
+    stopBy: end
+    kind: jsx_opening_element
+    has:
+      kind: identifier
+      regex: "^body$"
+fix: $CLASS bg-gradient-to-r from-teal-300 to-teal-400 dark:from-slate-700 dark:to-slate-800

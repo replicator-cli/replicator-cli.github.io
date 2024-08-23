@@ -3,35 +3,7 @@
 
 import { Style } from "hono/css"
 import type { Child, FC } from "hono/jsx"
-
-export interface MinimumLayoutProps {
-  additionalHead?: Child
-  title?: string
-  description?: string
-  children?: Child
-}
-
-export const MinimumLayout: FC<MinimumLayoutProps> = (props: MinimumLayoutProps) => {
-  return (
-    <html lang="en" class="min-h-full flex flex-col">
-      <head>
-        <meta charset="utf-8" />
-        <title>{props.title}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        {import.meta.env.PROD ? (
-          <link rel="stylesheet" href="/static/assets/style.css" />
-        ) : (
-          <link rel="stylesheet" href="/app/style.css" />
-        )}
-        <Style />
-        {props.additionalHead}
-      </head>
-      <body class="flex flex-col w-screen flex-1 bg-gradient-to-r from-teal-200 to-teal-500 dark:from-slate-500 dark:to-slate-800">
-        {props.children}
-      </body>
-    </html>
-  )
-}
+import { MinimumLayout, type MinimumLayoutProps } from "./minimum"
 
 export interface BasicLayoutProps extends MinimumLayoutProps {}
 
@@ -93,6 +65,8 @@ export const Nav: FC = () => {
             <a
               href="https://github.com/replicator-cli/replicator-cli"
               class="block p-2 dark:text-white"
+              rel="noopener noreferrer"
+              target="_blank"
             >
               Github
             </a>
@@ -183,7 +157,7 @@ export const MobileMenu: FC = ({ children }) => {
   // on open mobile-nav-backdrop = opacity-100 pointer-events-auto, mobile-nav-slide-panel = translate-x-0
   // backdrop click to close
   //
-  // TODO focus trap, escape button
+  // TODO focus trap
   return (
     <div
       class="fixed inset-0 z-50 overflow-hidden lg:hidden pointer-events-none"
@@ -205,7 +179,12 @@ export const MobileMenu: FC = ({ children }) => {
             class="min-h-full overscroll-contain w-[min(20rem,calc(100vw-theme(spacing.10)))] bg-white shadow-2xl ring-1 ring-black/10 transition pointer-events-auto translate-x-full"
           >
             <h2 class="sr-only">Navigation</h2>
-            <CloseButton title="Close navigation" data-action="closeMobileNav" tabindex={-1} />
+            <CloseButton
+              title="Close navigation"
+              data-action="closeMobileNav"
+              class="z-10"
+              tabindex={-1}
+            />
 
             <nav class="divide-y divide-slate-900/10 text-base leading-7 text-slate-900">
               <div class="px-8 py-6">

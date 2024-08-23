@@ -1,6 +1,47 @@
+---
+title: Roadmap
+published: 2024-05-17
+updated: 2024-08-32
+---
+
 # Roadmap
 
 Here are some planned roadmap items and some ideas that are planned to be considered. Submit an RFC as a github issue to discuss other ideas.
+
+I am in the process of moving all of this to a [Roadmap project in Github](https://github.com/orgs/replicator-cli/projects/1)
+
+### Bugs
+
+- [ ] double check the start/end template slots are working
+  - noticed it didn't work in a wrangler.toml file, but the append slot worked fine
+- [-] install path should be normalized and treated as a workspace install if it matches the workspace folder ;
+  - ready to retest
+- [ ] sorting the keys for apps in replicator.workspace.json would be nice
+
+### Feature Requests
+
+- [ ] better snapshot and diff process for reinstall
+  - create workspace
+  - run install operations
+  - create snapshot base - which is a copy of all non-ignored files
+    - workspace config should hold the snapshot name
+    - when the workspace has no snapshot, it performs installs without diff
+    - once you have a snapshot, app changes are tracked compared to the snapshot
+    - the snapshot needs to be saved with the project...
+    - but you don't want to edit / search the snapshot
+    - what if we store it compressed as a zip?
+  - Edit files, build out your project
+  - When ready to install a new template or reinstall the workspace
+    - create diff between snapshot base and current workspace
+    - run the reinstall
+    - prepare a new snapshot base
+    - apply the diff on the reinstall
+    - confirm that it looks good and you want to continue and replace the current workspace
+    - prompt to remove the old snapshot and diff
+
+### For release
+
+- [https://github.com/dagger/dagger/blob/main/CHANGELOG.md](https://github.com/dagger/dagger/blob/main/CHANGELOG.md)
 
 ### Secrets manager
 
@@ -12,6 +53,11 @@ Here are some planned roadmap items and some ideas that are planned to be consid
 
 ### Smaller feature requests
 
+- [ ] Ignore a replicator.readme.md file
+- [ ] Changelog file for templates
+- [ ] Rename the `patch` file to be `replicator.patch` - make it configurable if it isn't already
+- [ ] Requirements list in template config should have an optionaly third argument with variable overrides
+  - i.e. `["templates.mydomain.com/packages/ui", "workspace:{{{UI_PACKAGE_PATH}}}", { "APP_NAME": "{{{UI_PACKAGE_NAME}}}" }]`
 - [ ] Remove vars from the `output replay -i` command that match the current template defaults
 - [ ] Ability to disable writing the "patch" file entirely (and docs/example for that - global config example)
 - [ ] Some type of additional "prompts" config that can provide more context about inputs:
@@ -25,6 +71,8 @@ prompts: {
 }
 ```
 
+- [ ] Add combined post-install log to app replicator.json
+
 ### Technical tasks
 
 - [ ] Rust CI build actions (publish crate, build binaries, etc)
@@ -34,7 +82,7 @@ prompts: {
   - [ ] homebrew
   - [ ] add to nixpkgs. ex. [https://github.com/NixOS/nixpkgs/blob/master/pkgs/by-name/as/ast-grep/package.nix](https://github.com/NixOS/nixpkgs/blob/master/pkgs/by-name/as/ast-grep/package.nix)
   - [ ] where else? chocolatey?
-- [ ] Website generation
+- [x] Website generation
 - [ ] Code documentation
 - [ ] E2E tests of common use cases
 - [ ] Use anywho and thiserror for error handling instead of custom enum
@@ -54,10 +102,22 @@ prompts: {
 
 ### Versioning
 
-- [ ] Add `changelog` to template schema
+- [ ] Add `changelog` template file (assume it should be separate from main template config file?)
   - changelog struct = compatibility-date, is-breaking, notes
+  - see [https://keepachangelog.com/en/1.0.0/](https://keepachangelog.com/en/1.0.0/)
+  - but... we just want to make sure people use dates as versions
+  - we could do yyyy.mm.dd.version so 2024.08.23.1 to keep it looking like semantic versioning
+  - [https://changie.dev/](https://changie.dev/) - example: [https://github.com/dagger/dagger/blob/main/CHANGELOG.md](https://github.com/dagger/dagger/blob/main/CHANGELOG.md)
 - [ ] compare version installed in workspace and the current template version. note if "update available"
 - [ ] output changelogs for each updated template
+
+### Secrets manager
+
+- [ ] some type of secrets manager for inputs/outputs/variables
+  - somehow pipe to another process? or cloudflare api? and/or github? or pulumi?
+  - "variables" value could be a syntax for fetching the secret into runtime config
+  - could just invoke a command and capture the output... seems flexible right?
+  - look into pulumi's tool. maybe best to align with them.
 
 ### Developer Portals
 
@@ -65,41 +125,53 @@ prompts: {
   - [https://backstage.io/docs/reference/plugin-scaffolder-backend-module-yeoman/](https://backstage.io/docs/reference/plugin-scaffolder-backend-module-yeoman/)
   - [https://backstage.io/docs/reference/plugin-scaffolder-backend-module-cookiecutter/](https://backstage.io/docs/reference/plugin-scaffolder-backend-module-cookiecutter/)
 
+
 ### Template Management Features
 
-- `template list` additional args
+- `template list` additional args - https://github.com/orgs/replicator-cli/projects/1/views/1?pane=issue&itemId=70863675
   - [ ] -i option to limit to installed templates
   - [ ] -f [pattern] option to filter the list to templates matching the pattern
   - [ ] -v option to verbosely list the details about each template
   - [ ] -r option to recursively list the tree of requirements for each template
-- [ ] `template inputs [--sync]`
+- [ ] `template inputs [--sync]` - https://github.com/orgs/replicator-cli/projects/1/views/1?pane=issue&itemId=70863739
   - search through template files (and file/folder names) and find the variable placeholders
   - without the `--sync` arg, it should just compare to the template config and output findings
   - with `--sync`, it should update the template config, adding new items or removing unused ones
 - `template create [name] [source-path]`
+  - [https://github.com/orgs/replicator-cli/projects/1/views/1?pane=issue&itemId=70863758](https://github.com/orgs/replicator-cli/projects/1/views/1?pane=issue&itemId=70863758)
   - [ ] default install to first listed template folder. option to specify with `--template-folder`
   - [ ] If not already exist, prompt for other template config options and write template
   - [ ] `source-path` arg is optional, if supplied will copy files from that folder to the template
   - [ ] If template already exists and `source-path` is provided... prompt to add the new files to the template
-
 - [ ] "templatize" option in template config
+  - [https://github.com/orgs/replicator-cli/projects/1/views/1?pane=issue&itemId=70863770](https://github.com/orgs/replicator-cli/projects/1/views/1?pane=issue&itemId=70863770)
   - like postInstall, but run after files are snapshot
   - template update script would take the snapshot folder and apply the templatize scripts to it
   - and then overwrite the template files with them
   - for example, replacing certain strings with template placeholders
-
 - [ ] plugin system for alternate templating or file merging
+  - [https://github.com/orgs/replicator-cli/projects/1/views/1?pane=issue&itemId=70863785](https://github.com/orgs/replicator-cli/projects/1/views/1?pane=issue&itemId=70863785)
   - what if it was shell-based? at least to start. that would slow things down compared to other communication methods, but would be the most flexible and easiest to implement.
   - also see warpgate from moon [https://github.com/moonrepo/proto/tree/master/crates/warpgate](https://github.com/moonrepo/proto/tree/master/crates/warpgate)
+- [ ] Create a workflow for easily creating templates
+  - Create git branch
+  - Run shell commands that are recorded by some tool
+  - Make edits to files, commit
+  - Create template pointing to the commit sha which creates files in the template folder from the diff
+
 
 ### Template Requirements Injection
+
+[https://github.com/orgs/replicator-cli/projects/1/views/1?pane=issue&itemId=70863810](https://github.com/orgs/replicator-cli/projects/1/views/1?pane=issue&itemId=70863810)
 
 It should be possible to create a template that satisfies the same purpose as another template and can be used in its place. This can be useful for template authors that want to provide alternatives of the same template. It's also useful for template consumers that want to fork a template, make some changes and use it instead.
 
 - [x] Add a "satisfies" template config option to allow for a template to be used in replacement of another requirement.
-- [ ] Workspace template overrides. Mapping of template names. If it encounters one during installation, automatically use the other one instead.
+- [ ] Workspace / global config template overrides. Mapping of template names. If it encounters one during installation, automatically use the other one instead.
 
 ### GUI / App
+
+[https://github.com/orgs/replicator-cli/projects/1/views/1?pane=issue&itemId=70863358](https://github.com/orgs/replicator-cli/projects/1/views/1?pane=issue&itemId=70863358)
 
 `REPLICATOR_GUI_PORT=87878 replicator gui --open`
 
@@ -123,9 +195,11 @@ It should be possible to create a template that satisfies the same purpose as an
     - should show the surrounding code as read-only
     - template slot marker comments should be collapsed into components
 
-- replicator-vscode - bring the UI into vscode and add seemless template editing ("go to template") / template source annotations for each line of code. there might be some interesting ux possible here.
+- replicator-vscode - bring the UI into vscode and add seamless template editing ("go to template") / template source annotations for each line of code. there might be some interesting ux possible here.
 
 ### Template Server / Remote Fetch / Registry
+
+[https://github.com/orgs/replicator-cli/projects/1/views/1?pane=issue&itemId=70862902](https://github.com/orgs/replicator-cli/projects/1/views/1?pane=issue&itemId=70862902)
 
 It would be nice to have an idiomatic way to host templates and handle template versioning. For example, given a template name and a compatibility date (and optional authorization), it should serve an archive file with the template files for the version closest to that date. There should be checksum validation capabilities.
 
@@ -136,6 +210,10 @@ Even if we create a template server, it could also be useful to be able to insta
 - [ ] nixpkgs?
 
 It could be nice to have a decentralized registry that could be searched. Add tags to the template config schema. Find alternate templates that satisfy the same requirements.
+
+Potential existing tools to use for this:
+
+- [unjs/giget](https://github.com/unjs/giget)
 
 ### Template Author / Dependency Monitization
 
@@ -151,6 +229,11 @@ Also look for other projects in this space to interoperate, leverage or advocate
 - [drips.network](https://www.drips.network/) template creators can suggest splits for themselves and dependencies in the replicator.template.json? [https://www.drips.network/blog/posts/dependency-funding-with-drip](https://www.drips.network/blog/posts/dependency-funding-with-drip)
 - [radicle.xyz](https://radicle.xyz/)
 - softwarecommons.com
+
+### Documentation / Training / Tutorial
+
+- There's a cli tutorial in examples
+- https://tutorialkit.dev/ looks interesting
 
 ### Items to consider
 
@@ -173,3 +256,5 @@ Also look for other projects in this space to interoperate, leverage or advocate
 - [ ] templates.stackmyapp.com/apps/workers/api/deploy is a use case for installing a requirement to the workspace but using the INSTALL_PATH from the app that required it... maybe add a `_REQUIRED_BY_INSTALL_PATH` automatic var? or maybe `{{{app:_INSTALL_PATH}}}` \<-- so all of the vars from the app context could be made available with a app: prefix?
 
 - [ ] shell completion for template names once clap supports dynamic completions ([https://github.com/clap-rs/clap/issues/1232](https://github.com/clap-rs/clap/issues/1232))
+
+- [ ] publish config schemas to schemastore?

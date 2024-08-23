@@ -57,6 +57,16 @@
         "type": "string"
       }
     },
+    "inputPrompts": {
+      "description": "additional prompt text for inputs",
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": {
+        "$ref": "#/definitions/InputConfigValue"
+      }
+    },
     "inputs": {
       "description": "defines template inputs and their default values",
       "type": [

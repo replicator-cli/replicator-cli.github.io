@@ -4,11 +4,11 @@
     {
       "template": "replicator-cli.github.io/templates/workspace/root",
       "path": "",
-      "time": "2024-05-20T23:45:06.490483+00:00",
+      "time": "2024-08-23T18:04:27.645702+00:00",
       "requiredBy": [
         "user"
       ],
-      "version": "2024.05.20",
+      "version": "2024.08.23",
       "inputs": {
         "WORKSPACE_NAME": "replicator-cli.github.io",
         "NPM_INSTALL": "bun i",
@@ -40,11 +40,11 @@
       "template": "replicator-cli.github.io/templates/apps/pages/github/workspace",
       "path": "",
       "label": "github",
-      "time": "2024-05-20T23:45:06.530431+00:00",
+      "time": "2024-08-23T18:04:28.038817+00:00",
       "requiredBy": [
         "apps/pages/github"
       ],
-      "version": "2024.05.20",
+      "version": "2024.08.23",
       "inputs": {
         "APP_PATH": "apps/pages/github",
         "WORKFLOW_NAME": "github"
@@ -53,11 +53,11 @@
     {
       "template": "replicator-cli.github.io/templates/apps/pages/github/honox",
       "path": "apps/pages/github",
-      "time": "2024-05-20T23:45:06.532965+00:00",
+      "time": "2024-08-23T18:04:28.042872+00:00",
       "requiredBy": [
         "apps/pages/github"
       ],
-      "version": "2024.05.20",
+      "version": "2024.08.23",
       "inputs": {
         "NPM_SAVE": "bun add --exact",
         "NPM_SAVE_DEV": "bun add --exact --dev",
@@ -82,20 +82,22 @@
     {
       "template": "replicator-cli.github.io/templates/apps/pages/github/content",
       "path": "apps/pages/github",
-      "time": "2024-05-20T23:45:08.288556+00:00",
+      "time": "2024-08-23T18:04:32.899525+00:00",
       "requiredBy": [
         "user"
       ],
-      "version": "2024.05.20",
+      "version": "2024.08.23",
       "inputs": {
         "NPM_SAVE": "bun add --exact",
         "NPM_SAVE_DEV": "bun add --exact --dev",
         "APP_NAME": "replicator-cli.github.io",
         "APP_PATH": "apps/pages/github",
-        "WORKFLOW_NAME": "github"
+        "WORKFLOW_NAME": "github",
+        "ADDITIONAL_BODY_CLASSES": "bg-gradient-to-r from-teal-300 to-teal-400 dark:from-slate-700 dark:to-slate-800"
       },
       "postInstall": [
-        "./update-schema.sh"
+        "./update-schema.sh",
+        "sg scan -Ur rules/append-body-classes.yml app/layouts/minimum.tsx"
       ],
       "requirements": [
         [
